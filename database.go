@@ -9,11 +9,15 @@ import (
 	"strings"
 )
 
+type ListJobsCallback func(context.Context, *Job) error
+
 type Database interface {
 	AddJob(context.Context, *Job) error
 	GetJob(context.Context, int64) (*Job, error)
 	UpdateJob(context.Context, *Job) error
 	RemoveJob(context.Context, *Job) error
+	PruneJobs(context.Context, Status, int64) error
+	ListJobs(context.Context, ListJobsCallback) error
 }
 
 var database_roster roster.Roster

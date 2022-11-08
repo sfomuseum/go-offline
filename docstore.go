@@ -60,7 +60,7 @@ func (db *DocstoreDatabase) GetJob(ctx context.Context, id int64) (*Job, error) 
 
 	iter := q.Get(ctx)
 	defer iter.Stop()
-	
+
 	var job Job
 	err := iter.Next(ctx, &job)
 
@@ -89,4 +89,84 @@ func (db *DocstoreDatabase) UpdateJob(ctx context.Context, job *Job) error {
 func (db *DocstoreDatabase) RemoveJob(ctx context.Context, job *Job) error {
 
 	return db.collection.Delete(ctx, job)
+}
+
+func (db *DocstoreDatabase) ListJobs(ctx context.Context, cb ListJobsCallback) error {
+
+	q := db.collection.Query()
+
+	iter := q.Get(ctx)
+	defer iter.Stop()
+
+	for {
+
+		select {
+		case <-ctx.Done():
+			return nil
+		default:
+			// pass
+		}
+
+		var job Job
+		err := iter.Next(ctx, &job)
+
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			return fmt.Errorf("Failed to iterate jobs, %w", err)
+			continue
+		} else {
+			//
+		}
+
+		err = cb(ctx, &job)
+
+		if err != nil {
+			return fmt.Errorf("Callback failed for job %d", job.Id)
+		}
+	}
+
+	return nil
+}
+
+func (db *DocstoreDatabase) PruneJobs(ctx context.Context, status Status, lastmodified int64) error {
+
+	q := db.collection.Query()
+
+	q = q.Where("Status", "=", status)
+	q = q.Where("LastModified", "<=", lastmodified)
+
+	iter := q.Get(ctx)
+	defer iter.Stop()
+
+	for {
+
+		select {
+		case <-ctx.Done():
+			return nil
+		default:
+			// pass
+		}
+
+		var job Job
+		err := iter.Next(ctx, &job)
+
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			return fmt.Errorf("Failed to iterate jobs, %w", err)
+			continue
+		} else {
+			//
+		}
+
+		err = db.RemoveJob(ctx, &job)
+
+		if err != nil {
+			return fmt.Errorf("Failed to remove job '%d', %v", job.Id, err)
+		}
+	}
+
+	return nil
+
 }
