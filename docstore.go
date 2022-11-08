@@ -13,6 +13,20 @@ type DocstoreDatabase struct {
 	collection *docstore.Collection
 }
 
+func init() {
+
+	ctx := context.Background()
+
+	for _, scheme := range docstore.DefaultURLMux().CollectionSchemes() {
+
+		err := RegisterDatabase(ctx, scheme, NewDocstoreDatabase)
+
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
 func NewDocstoreDatabase(ctx context.Context, uri string) (Database, error) {
 
 	col, err := docstore.OpenCollection(ctx, uri)
@@ -46,8 +60,8 @@ func (db *DocstoreDatabase) GetJob(ctx context.Context, id int64) (*Job, error) 
 
 	iter := q.Get(ctx)
 	defer iter.Stop()
-
-	var job *Job
+	
+	var job Job
 	err := iter.Next(ctx, &job)
 
 	if err != nil {
@@ -59,7 +73,7 @@ func (db *DocstoreDatabase) GetJob(ctx context.Context, id int64) (*Job, error) 
 		return nil, fmt.Errorf("Failed to retrieve next item in iterator, %w", err)
 	}
 
-	return job, nil
+	return &job, nil
 }
 
 func (db *DocstoreDatabase) UpdateJob(ctx context.Context, job *Job) error {

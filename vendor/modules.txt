@@ -46,6 +46,7 @@ go.opencensus.io/trace/tracestate
 gocloud.dev/docstore
 gocloud.dev/docstore/driver
 gocloud.dev/docstore/internal/fields
+gocloud.dev/docstore/memdocstore
 gocloud.dev/gcerrors
 gocloud.dev/internal/gcerr
 gocloud.dev/internal/oc
