@@ -74,7 +74,7 @@ func TestDocstoreDatabase(t *testing.T) {
 	}
 }
 
-func TestPruneJobs(t *testing.T) {
+func TestPruneAndListJobs(t *testing.T) {
 
 	ctx := context.Background()
 

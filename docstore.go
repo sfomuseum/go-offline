@@ -1,6 +1,10 @@
 package offline
 
 import (
+	_ "gocloud.dev/docstore/memdocstore"
+)
+
+import (
 	"context"
 	"fmt"
 	"gocloud.dev/docstore"
