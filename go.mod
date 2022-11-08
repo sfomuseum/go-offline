@@ -1,4 +1,4 @@
-module github.com/sfomuseum/go-sfomuseum-offline
+module github.com/sfomuseum/go-offline
 
 go 1.19
 

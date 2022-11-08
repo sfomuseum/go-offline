@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/aaronland/go-http-sanitize"
 	"github.com/sfomuseum/go-http-auth"
-	"github.com/sfomuseum/go-sfomuseum-offline"
+	"github.com/sfomuseum/go-offline"
 	"net/http"
 )
 

@@ -8,6 +8,7 @@ import (
 
 const (
 	Pending Status = iota
+	Queued
 	Processing
 	Completed
 	Failed
@@ -21,7 +22,7 @@ type Job struct {
 	Created      int64       `json:"created"`
 	LastModified int64       `json:"lastmodified"`
 	Instructions interface{} `json:"instruction"`
-	Error string `json:"error,omitempty"`
+	Error        string      `json:"error,omitempty"`
 }
 
 func NewJob(ctx context.Context, instructions interface{}) (*Job, error) {

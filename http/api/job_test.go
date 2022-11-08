@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sfomuseum/go-http-auth"
-	"github.com/sfomuseum/go-sfomuseum-offline"	
+	"github.com/sfomuseum/go-offline"
 	"net/http"
 	"testing"
 )
