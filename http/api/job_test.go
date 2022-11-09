@@ -14,7 +14,7 @@ func TestJobStatusHandler(t *testing.T) {
 
 	ctx := context.Background()
 
-	db_uri := "mem://offline/Id"
+	db_uri := "syncmap://"
 
 	db, err := offline.NewDatabase(ctx, db_uri)
 
