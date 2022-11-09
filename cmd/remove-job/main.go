@@ -2,11 +2,9 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"flag"
 	"github.com/sfomuseum/go-offline"
 	"log"
-	"os"
 )
 
 func main() {
@@ -31,10 +29,9 @@ func main() {
 		log.Fatalf("Failed to get job, %v", err)
 	}
 
-	enc := json.NewEncoder(os.Stdout)
-	err = enc.Encode(&job)
+	err = db.RemoveJob(ctx, job)
 
 	if err != nil {
-		log.Fatalf("Failed to decode job, %v", err)
+		log.Fatalf("Failed to remove job, %v", err)
 	}
 }

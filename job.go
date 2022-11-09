@@ -16,6 +16,22 @@ const (
 
 type Status int
 
+func (s Status) String() string {
+
+	switch s {
+	case Pending:
+		return "pending"
+	case Queued:
+		return "queued"
+	case Processing:
+		return "processing"
+	case Completed:
+		return "completed"
+	default:
+		return "failed"
+	}
+}
+
 type Job struct {
 	Id           int64       `json:"id"`
 	Status       Status      `json:"status"`
@@ -23,6 +39,10 @@ type Job struct {
 	LastModified int64       `json:"lastmodified"`
 	Instructions interface{} `json:"instruction"`
 	Error        string      `json:"error,omitempty"`
+}
+
+func (job *Job) String() string {
+	return fmt.Sprintf("%d (%v)", job.Id, job.Status)
 }
 
 func NewJob(ctx context.Context, instructions interface{}) (*Job, error) {

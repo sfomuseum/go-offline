@@ -25,6 +25,7 @@ func init() {
 
 	ctx := context.Background()
 
+	// See below
 	RegisterDatabase(ctx, "awsdynamodb", NewDocstoreDatabase)
 
 	for _, scheme := range docstore.DefaultURLMux().CollectionSchemes() {
@@ -168,7 +169,6 @@ func (db *DocstoreDatabase) ListJobs(ctx context.Context, cb ListJobsCallback) e
 			break
 		} else if err != nil {
 			return fmt.Errorf("Failed to iterate jobs, %w", err)
-			continue
 		} else {
 			//
 		}
@@ -209,7 +209,6 @@ func (db *DocstoreDatabase) PruneJobs(ctx context.Context, status Status, lastmo
 			break
 		} else if err != nil {
 			return fmt.Errorf("Failed to iterate jobs, %w", err)
-			continue
 		} else {
 			//
 		}
