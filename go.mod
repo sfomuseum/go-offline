@@ -9,6 +9,7 @@ require (
 	github.com/aaronland/go-roster v1.0.0
 	github.com/aws/aws-sdk-go v1.44.94
 	github.com/bwmarrin/snowflake v0.3.0
+	github.com/sfomuseum/go-flags v0.10.0
 	github.com/sfomuseum/go-http-auth v0.0.5
 	gocloud.dev v0.27.0
 )

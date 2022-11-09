@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	aws_dynamodb "github.com/aws/aws-sdk-go/service/dynamodb"
-	"log"
 )
 
 // CreateTablesOptions defines options for the CreateTables method
@@ -18,28 +17,20 @@ type CreateTablesOptions struct {
 // Create one or more tables associated with the dynamodb.DynamoDB instance.
 func CreateTables(client *aws_dynamodb.DynamoDB, opts *CreateTablesOptions) error {
 
-	log.Println("WOO")
-	
 	for table_name, def := range opts.Tables {
 
-		log.Println("WUT", table_name)
-		
 		has_table, err := HasTable(client, table_name)
 
 		if err != nil {
-			log.Println("SAD 1", err )
 			return fmt.Errorf("Failed to determined whether table exists, %w", err)
 		}
 
 		if has_table {
 
 			if !opts.Refresh {
-				log.Println("SKIP")
 				continue
 			}
 
-			log.Println("DELETE")
-			
 			req := &aws_dynamodb.DeleteTableInput{
 				TableName: aws.String(table_name),
 			}
@@ -47,13 +38,11 @@ func CreateTables(client *aws_dynamodb.DynamoDB, opts *CreateTablesOptions) erro
 			client.DeleteTable(req)
 		}
 
-		log.Println("CREATE", table_name)
 		def.TableName = aws.String(table_name)
 
 		_, err = client.CreateTable(def)
 
 		if err != nil {
-			log.Println("SAD 2", err)
 			return fmt.Errorf("Failed to create table '%s', %w", table_name, err)
 		}
 	}
@@ -70,7 +59,6 @@ func HasTable(client *aws_dynamodb.DynamoDB, table_name string) (bool, error) {
 		return false, err
 	}
 
-	log.Println(tables)
 	has_table := false
 
 	for _, name := range tables {
