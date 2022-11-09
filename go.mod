@@ -7,6 +7,7 @@ require (
 	github.com/aaronland/go-http-server v1.0.0
 	github.com/aaronland/go-roster v1.0.0
 	github.com/bwmarrin/snowflake v0.3.0
+	github.com/rs/cors v1.8.2
 	github.com/sfomuseum/go-flags v0.10.0
 	github.com/sfomuseum/go-http-auth v0.0.5
 )
