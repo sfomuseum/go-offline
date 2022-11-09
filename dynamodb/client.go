@@ -30,7 +30,7 @@ func NewSessionWithURI(ctx context.Context, uri string) (*aws_session.Session, e
 	is_local := false
 
 	if local != "" {
-		
+
 		l, err := strconv.ParseBool(local)
 
 		if err != nil {

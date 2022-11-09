@@ -13,12 +13,6 @@ type JobStatusHandlerOptions struct {
 	Authenticator auth.Authenticator
 }
 
-type JobStatusResponse struct {
-	JobId        int64          `json:"job_id"`
-	Status       offline.Status `json:"status"`
-	LastModified int64          `json:"lastmodified"`
-}
-
 func JobStatusHandler(opts *JobStatusHandlerOptions) http.Handler {
 
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
@@ -46,16 +40,10 @@ func JobStatusHandler(opts *JobStatusHandlerOptions) http.Handler {
 			return
 		}
 
-		status_rsp := JobStatusResponse{
-			JobId:        job.Id,
-			Status:       job.Status,
-			LastModified: job.LastModified,
-		}
-
 		rsp.Header().Set("Content-type", "application/json")
 
 		enc := json.NewEncoder(rsp)
-		err = enc.Encode(status_rsp)
+		err = enc.Encode(job.AsStatusResponse())
 
 		if err != nil {
 			http.Error(rsp, "Server error", http.StatusInternalServerError)

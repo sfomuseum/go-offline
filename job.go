@@ -41,8 +41,10 @@ type Job struct {
 	Error        string      `json:"error,omitempty"`
 }
 
-func (job *Job) String() string {
-	return fmt.Sprintf("%d (%v)", job.Id, job.Status)
+type JobStatusResponse struct {
+	JobId        int64  `json:"job_id"`
+	Status       Status `json:"status"`
+	LastModified int64  `json:"lastmodified"`
 }
 
 func NewJob(ctx context.Context, instructions interface{}) (*Job, error) {
@@ -65,4 +67,19 @@ func NewJob(ctx context.Context, instructions interface{}) (*Job, error) {
 	}
 
 	return job, nil
+}
+
+func (job *Job) String() string {
+	return fmt.Sprintf("%d (%v)", job.Id, job.Status)
+}
+
+func (job *Job) AsStatusResponse() *JobStatusResponse {
+
+	status_rsp := &JobStatusResponse{
+		JobId:        job.Id,
+		Status:       job.Status,
+		LastModified: job.LastModified,
+	}
+
+	return status_rsp
 }
