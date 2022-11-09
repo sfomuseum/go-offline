@@ -77,6 +77,8 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 		return fmt.Errorf("Failed to create server, %w", err)
 	}
 
+	logger.Printf("Listening for requests at %s\n", s.Address())
+
 	err = s.ListenAndServe(ctx, mux)
 
 	if err != nil {
