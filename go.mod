@@ -6,6 +6,7 @@ require (
 	github.com/aaronland/go-aws-dynamodb v0.0.4
 	github.com/aaronland/go-aws-session v0.0.6
 	github.com/aaronland/go-http-sanitize v0.0.6
+	github.com/aaronland/go-http-server v1.0.0
 	github.com/aaronland/go-roster v1.0.0
 	github.com/aws/aws-sdk-go v1.44.94
 	github.com/bwmarrin/snowflake v0.3.0
@@ -16,6 +17,8 @@ require (
 
 require (
 	github.com/aaronland/go-string v0.1.2 // indirect
+	github.com/akrylysov/algnhsa v0.12.1 // indirect
+	github.com/aws/aws-lambda-go v1.13.3 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.16.8 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.15.15 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.12.10 // indirect
