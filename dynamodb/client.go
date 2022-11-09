@@ -1,5 +1,7 @@
 package dynamodb
 
+// Move this in to aaronland/go-aws-dynamodb
+
 import (
 	"context"
 	"fmt"
@@ -25,10 +27,17 @@ func NewSessionWithURI(ctx context.Context, uri string) (*aws_session.Session, e
 	credentials := q.Get("credentials")
 	local := q.Get("local")
 
-	is_local, err := strconv.ParseBool(local)
+	is_local := false
 
-	if err != nil {
-		return nil, fmt.Errorf("Failed to parse ?local parameter, %w", err)
+	if local != "" {
+		
+		l, err := strconv.ParseBool(local)
+
+		if err != nil {
+			return nil, fmt.Errorf("Failed to parse ?local parameter, %w", err)
+		}
+
+		is_local = l
 	}
 
 	if is_local {

@@ -7,7 +7,7 @@ import (
 
 // DynamoDBTables is a map whose keys are DynamoDB table names and whose values are `dynamodb.CreateTableInput` instances.
 var DynamoDBTables = map[string]*dynamodb.CreateTableInput{
-	"OfflineJobs": &dynamodb.CreateTableInput{
+	"offlinejobs": &dynamodb.CreateTableInput{
 		KeySchema: []*dynamodb.KeySchemaElement{
 			{
 				AttributeName: aws.String("Id"),
