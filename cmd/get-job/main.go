@@ -1,22 +1,19 @@
 package main
 
 import (
-	_ "gocloud.dev/docstore/awsdynamodb"
-)
-
-import (
 	"context"
 	"encoding/json"
 	"flag"
-	"fmt"
 	"github.com/sfomuseum/go-offline"
 	"log"
+	"os"
 )
 
 func main() {
 
 	database_uri := flag.String("database-uri", "awsdynamodb://OfflineJobs?partition_key=Id&local=true", "")
-	instructions := flag.String("instructions", "", "")
+
+	job_id := flag.Int64("job-id", 0, "")
 
 	flag.Parse()
 
@@ -28,25 +25,19 @@ func main() {
 		log.Fatalf("Failed to create offline database, %v", err)
 	}
 
-	var data interface{}
+	log.Println("GET", *job_id)
 
-	err = json.Unmarshal([]byte(*instructions), &data)
-
-	if err != nil {
-		log.Fatalf("Failed to unmarshal instructions, %v", err)
-	}
-
-	job, err := offline.NewJob(ctx, data)
-
-	if err != nil {
-		log.Fatalf("Failed to create new job, %v", err)
-	}
-
-	err = db.AddJob(ctx, job)
+	job, err := db.GetJob(ctx, *job_id)
 
 	if err != nil {
 		log.Fatalf("Failed to add job, %v", err)
 	}
 
-	fmt.Println(job.Id)
+	dec := json.NewDecoder(os.Stdout)
+	err = dec.Decode(job)
+
+	if err != nil {
+		log.Fatalf("Failed to decode job, %v", err)
+	}
+
 }

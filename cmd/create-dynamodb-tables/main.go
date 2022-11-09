@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	client_uri := flag.String("client-uri", "", "...")
+	client_uri := flag.String("client-uri", "dynamodb://?local=1", "...")
 	refresh := flag.Bool("refresh", false, "...")
 
 	flag.Parse()

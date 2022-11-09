@@ -2,20 +2,18 @@ package offline
 
 import (
 	_ "gocloud.dev/docstore/memdocstore"
-	"gocloud.dev/docstore/awsdynamodb"		
 )
 
 import (
 	"context"
 	"fmt"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
+	sfom_dynamodb "github.com/sfomuseum/go-offline/dynamodb"
 	"gocloud.dev/docstore"
-	aa_session "github.com/aaronland/go-aws-session"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/dynamodb"	
+	"gocloud.dev/docstore/awsdynamodb"
 	"io"
-	"time"
 	"net/url"
+	"time"
 )
 
 type DocstoreDatabase struct {
@@ -27,20 +25,18 @@ func init() {
 
 	ctx := context.Background()
 
+	RegisterDatabase(ctx, "awsdynamodb", NewDocstoreDatabase)
+
 	for _, scheme := range docstore.DefaultURLMux().CollectionSchemes() {
 
-		err := RegisterDatabase(ctx, scheme, NewDocstoreDatabase)
-
-		if err != nil {
-			panic(err)
-		}
+		RegisterDatabase(ctx, scheme, NewDocstoreDatabase)
 	}
 }
 
 func NewDocstoreDatabase(ctx context.Context, uri string) (Database, error) {
 
 	// START OF put me in a package or something
-	
+
 	db_u, err := url.Parse(uri)
 
 	if err != nil {
@@ -51,38 +47,23 @@ func NewDocstoreDatabase(ctx context.Context, uri string) (Database, error) {
 
 	if db_u.Scheme == "awsdynamodb" {
 
+		sess, err := sfom_dynamodb.NewSessionWithURI(ctx, uri)
+
+		if err != nil {
+			return nil, fmt.Errorf("Failed to create session, %w", err)
+		}
+
 		// Connect local dynamodb using Golang
 		// https://gist.github.com/Tamal/02776c3e2db7eec73c001225ff52e827
 		// https://gocloud.dev/howto/docstore/#dynamodb-ctor
 
 		table := db_u.Host
-		
+
 		db_q := db_u.Query()
-
 		partition_key := db_q.Get("partition_key")
-		region := db_q.Get("region")
-		endpoint := db_q.Get("endpoint")
-
-		credentials := db_q.Get("credentials")
-
-		cfg, err := aa_session.NewConfigWithCredentialsAndRegion(credentials, region)
-
-		if err != nil {
-			return nil, fmt.Errorf("Failed to create new session for credentials '%s', %w", credentials, err)
-		}
-
-		if endpoint != "" {
-			cfg.Endpoint = aws.String(endpoint)
-		}
-
-		sess, err := session.NewSession(cfg)
-
-		if err != nil {
-			return nil, fmt.Errorf("Failed to create AWS session, %w", err)
-		}
 
 		opts := &awsdynamodb.Options{
-			AllowScans:       true,
+			AllowScans: true,
 			// RunQueryFallback: fallback_func,
 		}
 
@@ -96,7 +77,7 @@ func NewDocstoreDatabase(ctx context.Context, uri string) (Database, error) {
 
 		col = db
 	} else {
-	
+
 		db, err := docstore.OpenCollection(ctx, uri)
 
 		if err != nil {
@@ -107,7 +88,7 @@ func NewDocstoreDatabase(ctx context.Context, uri string) (Database, error) {
 	}
 
 	// END OF put me in a package or something
-	
+
 	db := &DocstoreDatabase{
 		collection: col,
 	}
