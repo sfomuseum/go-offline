@@ -69,7 +69,7 @@ func TestJobStatusHandler(t *testing.T) {
 		t.Fatalf("Failed to get '%s', %v", url, err)
 	}
 
-	var status_rsp JobStatusResponse
+	var status_rsp offline.JobStatusResponse
 
 	dec := json.NewDecoder(rsp.Body)
 	err = dec.Decode(&status_rsp)

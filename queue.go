@@ -10,7 +10,7 @@ import (
 )
 
 type Queue interface {
-	QueueJob(context.Context, int64) error
+	ScheduleJob(context.Context, int64) error
 	Close(context.Context) error
 }
 

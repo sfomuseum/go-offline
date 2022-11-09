@@ -1,6 +1,10 @@
 package offline
 
 import (
+	_ "gocloud.dev/pubsub/mempubsub"
+)
+
+import (
 	"context"
 	"fmt"
 	"gocloud.dev/pubsub"
@@ -36,7 +40,7 @@ func NewPubSubQueue(ctx context.Context, uri string) (Queue, error) {
 	return q, nil
 }
 
-func (q *PubSubQueue) QueueJob(ctx context.Context, job_id int64) error {
+func (q *PubSubQueue) ScheduleJob(ctx context.Context, job_id int64) error {
 
 	str_id := strconv.FormatInt(job_id, 10)
 
