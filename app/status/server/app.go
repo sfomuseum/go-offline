@@ -38,6 +38,7 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet, logger *log.Logger) e
 func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	fs := opts.FlagSet
+	logger := opts.Logger
 
 	flagset.Parse(fs)
 

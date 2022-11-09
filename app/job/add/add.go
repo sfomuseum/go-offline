@@ -22,7 +22,7 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet, logger *log.Logger) e
 	db, err := offline.NewDatabase(ctx, database_uri)
 
 	if err != nil {
-		return fmt.Errorf("Failed to create offline database, %w", err)
+		return fmt.Errorf("Failed to create offline database for '%s', %w", database_uri, err)
 	}
 
 	var data interface{}

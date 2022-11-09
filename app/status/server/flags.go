@@ -15,7 +15,7 @@ func DefaultFlagSet() *flag.FlagSet {
 
 	fs := flagset.NewFlagSet("offline")
 
-	fs.StringVar(&offline_database_uri, "offline-database-uri", "awsdynamodb://offlinejobs?partition_key=Id&local=true", "")
+	fs.StringVar(&offline_database_uri, "offline-database-uri", "", "")
 
 	fs.StringVar(&authenticator_uri, "authenticator-uri", "null://", "")
 
