@@ -5,11 +5,11 @@ import (
 	"flag"
 	"fmt"
 	"github.com/aaronland/go-http-server"
+	"github.com/rs/cors"
 	"github.com/sfomuseum/go-flags/flagset"
 	"github.com/sfomuseum/go-http-auth"
 	"github.com/sfomuseum/go-offline"
 	"github.com/sfomuseum/go-offline/http/api"
-	"github.com/rs/cors"	
 	"log"
 	"net/http"
 )
@@ -75,7 +75,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 		})
 
 	}
-		
+
 	status_handler_opts := &api.JobStatusHandlerOptions{
 		Database:      offline_db,
 		Authenticator: authenticator,
@@ -87,7 +87,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	if enable_cors {
 		status_handler = cors_wrapper.Handler(status_handler)
 	}
-	
+
 	mux := http.NewServeMux()
 
 	mux.Handle("/jobs/status", status_handler)
