@@ -42,6 +42,32 @@ func TestSyncMapDatabase(t *testing.T) {
 		t.Fatalf("Failed to retrieve job, %v", err)
 	}
 
+	switch job.Instructions.(type) {
+	case map[string]interface{}:
+		// pass
+	default:
+		t.Fatalf("Unexpected type for instructions, %T", job.Instructions)
+	}
+
+	instructions = job.Instructions.(map[string]interface{})
+
+	v, ok := instructions["id"]
+
+	if !ok {
+		t.Fatalf("Unable to find 'id' key in job.Instructions")
+	}
+
+	switch v.(type) {
+	case int:
+		// pass
+	default:
+		t.Fatalf("Unexpected type for id, %T", v)
+	}
+
+	if v.(int) != 1234 {
+		t.Fatalf("Unexpected value for id")
+	}
+
 	job.Status = Processing
 
 	err = db.UpdateJob(ctx, job)

@@ -2,7 +2,7 @@ package offline
 
 import (
 	"context"
-	"encoding/json"
+	// "encoding/json"
 	"fmt"
 	"time"
 )
@@ -34,13 +34,13 @@ func (s Status) String() string {
 }
 
 type Job struct {
-	Id           int64  `json:"id"`
-	Status       Status `json:"status"`
-	Created      int64  `json:"created"`
-	LastModified int64  `json:"lastmodified"`
-	Instructions string `json:"instructions"` // because []byte encodes as a base64-encoded string
-	Results      string `json:"results,omitempty"`
-	Error        string `json:"error,omitempty"`
+	Id           int64       `json:"id"`
+	Status       Status      `json:"status"`
+	Created      int64       `json:"created"`
+	LastModified int64       `json:"lastmodified"`
+	Instructions interface{} `json:"instructions"`
+	Results      string      `json:"results,omitempty"`
+	Error        string      `json:"error,omitempty"`
 }
 
 type JobStatusResponse struct {
@@ -53,11 +53,13 @@ type JobStatusResponse struct {
 
 func NewJob(ctx context.Context, instructions interface{}) (*Job, error) {
 
-	enc_instructions, err := json.Marshal(instructions)
+	/*
+		enc_instructions, err := json.Marshal(instructions)
 
-	if err != nil {
-		return nil, fmt.Errorf("Failed to marshal instructions, %w", err)
-	}
+		if err != nil {
+			return nil, fmt.Errorf("Failed to marshal instructions, %w", err)
+		}
+	*/
 
 	id, err := NewJobId(ctx)
 
@@ -73,7 +75,7 @@ func NewJob(ctx context.Context, instructions interface{}) (*Job, error) {
 		Created:      ts,
 		LastModified: ts,
 		Status:       Pending,
-		Instructions: string(enc_instructions),
+		Instructions: instructions,
 	}
 
 	return job, nil
