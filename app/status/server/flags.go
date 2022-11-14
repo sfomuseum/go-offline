@@ -18,6 +18,8 @@ var cors_origins multi.MultiCSVString
 
 var cors_allow_credentials bool
 
+var path_status string
+
 func DefaultFlagSet() *flag.FlagSet {
 
 	fs := flagset.NewFlagSet("offline")
@@ -33,6 +35,8 @@ func DefaultFlagSet() *flag.FlagSet {
 	fs.Var(&cors_origins, "cors-origin", "One or more hosts to restrict CORS support to on the API endpoint.")
 
 	fs.BoolVar(&cors_allow_credentials, "cors-allow-credentials", false, "A boolean flag indicating whether or not to allow credentials headers for CORS requests.")
+
+	fs.StringVar(&path_status, "path-status", "/api/jobs/status", "The relative URI (path) for the job status handler")
 
 	return fs
 }

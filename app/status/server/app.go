@@ -90,7 +90,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	mux := http.NewServeMux()
 
-	mux.Handle("/jobs/status", status_handler)
+	mux.Handle(path_status, status_handler)
 
 	s, err := server.NewServer(ctx, server_uri)
 
