@@ -45,7 +45,7 @@ type Job struct {
 
 type JobStatusResponse struct {
 	JobId        int64  `json:"job_id"`
-	Status       Status `json:"status"`
+	Status       string `json:"status"`
 	LastModified int64  `json:"lastmodified"`
 	Results      string `json:"results,omitempty"`
 	Error        string `json:"error,omitempty"`
@@ -81,7 +81,7 @@ func (job *Job) AsStatusResponse() *JobStatusResponse {
 
 	status_rsp := &JobStatusResponse{
 		JobId:        job.Id,
-		Status:       job.Status,
+		Status:       job.Status.String(),
 		LastModified: job.LastModified,
 	}
 
