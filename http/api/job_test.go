@@ -7,6 +7,7 @@ import (
 	"github.com/sfomuseum/go-http-auth"
 	"github.com/sfomuseum/go-offline"
 	"net/http"
+	"strconv"
 	"testing"
 )
 
@@ -86,7 +87,7 @@ func TestJobStatusHandler(t *testing.T) {
 		t.Fatalf("Failed to decode response, %v", err)
 	}
 
-	if status_rsp.JobId != job.Id {
-		t.Fatalf("Unexpected job ID, %d", status_rsp.JobId)
+	if status_rsp.JobId != strconv.FormatInt(job.Id, 10) {
+		t.Fatalf("Unexpected job ID, %s", status_rsp.JobId)
 	}
 }

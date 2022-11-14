@@ -2,8 +2,8 @@ package offline
 
 import (
 	"context"
-	// "encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -44,7 +44,7 @@ type Job struct {
 }
 
 type JobStatusResponse struct {
-	JobId        int64  `json:"job_id"`
+	JobId        string `json:"job_id"` // because JavaScript 58-bit integer hoohah
 	Status       string `json:"status"`
 	LastModified int64  `json:"lastmodified"`
 	Results      string `json:"results,omitempty"`
@@ -79,8 +79,10 @@ func (job *Job) String() string {
 
 func (job *Job) AsStatusResponse() *JobStatusResponse {
 
+	str_id := strconv.FormatInt(job.Id, 10)
+
 	status_rsp := &JobStatusResponse{
-		JobId:        job.Id,
+		JobId:        str_id,
 		Status:       job.Status.String(),
 		LastModified: job.LastModified,
 	}

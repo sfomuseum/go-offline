@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/tidwall/gjson"
+	"strconv"
 	"testing"
 )
 
@@ -49,8 +50,14 @@ func TestJobStatusResponse(t *testing.T) {
 
 	s := j.AsStatusResponse()
 
-	if s.JobId != j.Id {
-		t.Fatalf("Invalid job status ID, %d", s.JobId)
+	s_id, err := strconv.ParseInt(s.JobId, 10, 64)
+
+	if err != nil {
+		t.Fatalf("Failed to parse job status ID, %v", err)
+	}
+
+	if s_id != j.Id {
+		t.Fatalf("Invalid job status ID, %d", s_id)
 	}
 
 	enc_s, err := json.Marshal(s)
