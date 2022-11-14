@@ -2,7 +2,6 @@ package add
 
 import (
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"github.com/sfomuseum/go-flags/flagset"
@@ -25,15 +24,7 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet, logger *log.Logger) e
 		return fmt.Errorf("Failed to create offline database for '%s', %w", database_uri, err)
 	}
 
-	var data interface{}
-
-	err = json.Unmarshal([]byte(instructions), &data)
-
-	if err != nil {
-		return fmt.Errorf("Failed to unmarshal instructions, %w", err)
-	}
-
-	job, err := offline.NewJob(ctx, data)
+	job, err := offline.NewJob(ctx, instructions)
 
 	if err != nil {
 		return fmt.Errorf("Failed to create new job, %w", err)

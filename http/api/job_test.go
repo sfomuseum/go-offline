@@ -33,7 +33,15 @@ func TestJobStatusHandler(t *testing.T) {
 		"id":   1234,
 	}
 
-	job, err := offline.NewJob(ctx, instructions)
+	enc_instructions, err := json.Marshal(instructions)
+
+	if err != nil {
+		t.Fatalf("Failed to marshal instructions, %v", err)
+	}
+
+	str_instructions := string(enc_instructions)
+
+	job, err := offline.NewJob(ctx, str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)

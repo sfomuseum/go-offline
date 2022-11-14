@@ -2,6 +2,7 @@ package offline
 
 import (
 	"context"
+	"encoding/json"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -24,7 +25,15 @@ func TestSyncMapDatabase(t *testing.T) {
 		"id":   1234,
 	}
 
-	job, err := NewJob(ctx, instructions)
+	enc_instructions, err := json.Marshal(instructions)
+
+	if err != nil {
+		t.Fatalf("Failed to marshal instructions, %v", err)
+	}
+
+	str_instructions := string(enc_instructions)
+
+	job, err := NewJob(ctx, str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)
@@ -42,14 +51,13 @@ func TestSyncMapDatabase(t *testing.T) {
 		t.Fatalf("Failed to retrieve job, %v", err)
 	}
 
-	switch job.Instructions.(type) {
-	case map[string]interface{}:
-		// pass
-	default:
-		t.Fatalf("Unexpected type for instructions, %T", job.Instructions)
-	}
+	str_instructions = job.Instructions
 
-	instructions = job.Instructions.(map[string]interface{})
+	err = json.Unmarshal([]byte(str_instructions), &instructions)
+
+	if err != nil {
+		t.Fatalf("Failed to unmarshal job instructions, %v", err)
+	}
 
 	v, ok := instructions["id"]
 
@@ -58,13 +66,13 @@ func TestSyncMapDatabase(t *testing.T) {
 	}
 
 	switch v.(type) {
-	case int:
+	case float64:
 		// pass
 	default:
 		t.Fatalf("Unexpected type for id, %T", v)
 	}
 
-	if v.(int) != 1234 {
+	if int(v.(float64)) != 1234 {
 		t.Fatalf("Unexpected value for id")
 	}
 
@@ -118,7 +126,15 @@ func TestPruneAndListJobs(t *testing.T) {
 
 	for i := 0; i < 5; i++ {
 
-		job, err := NewJob(ctx, instructions)
+		enc_instructions, err := json.Marshal(instructions)
+
+		if err != nil {
+			t.Fatalf("Failed to marshal instructions, %v", err)
+		}
+
+		str_instructions := string(enc_instructions)
+
+		job, err := NewJob(ctx, str_instructions)
 
 		if err != nil {
 			t.Fatalf("Failed to create new job, %v", err)

@@ -2,6 +2,7 @@ package offline
 
 import (
 	"context"
+	"encoding/json"
 	"testing"
 )
 
@@ -14,7 +15,15 @@ func TestNewJob(t *testing.T) {
 		"id":   1234,
 	}
 
-	j, err := NewJob(ctx, instructions)
+	enc_instructions, err := json.Marshal(instructions)
+
+	if err != nil {
+		t.Fatalf("Failed to marshal instructions, %v", err)
+	}
+
+	str_instructions := string(enc_instructions)
+
+	j, err := NewJob(ctx, str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)

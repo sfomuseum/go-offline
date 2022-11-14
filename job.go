@@ -34,13 +34,13 @@ func (s Status) String() string {
 }
 
 type Job struct {
-	Id           int64       `json:"id"`
-	Status       Status      `json:"status"`
-	Created      int64       `json:"created"`
-	LastModified int64       `json:"lastmodified"`
-	Instructions interface{} `json:"instructions"`
-	Results      string      `json:"results,omitempty"`
-	Error        string      `json:"error,omitempty"`
+	Id           int64  `json:"id"`
+	Status       Status `json:"status"`
+	Created      int64  `json:"created"`
+	LastModified int64  `json:"lastmodified"`
+	Instructions string `json:"instructions"`
+	Results      string `json:"results,omitempty"`
+	Error        string `json:"error,omitempty"`
 }
 
 type JobStatusResponse struct {
@@ -51,15 +51,7 @@ type JobStatusResponse struct {
 	Error        string `json:"error,omitempty"`
 }
 
-func NewJob(ctx context.Context, instructions interface{}) (*Job, error) {
-
-	/*
-		enc_instructions, err := json.Marshal(instructions)
-
-		if err != nil {
-			return nil, fmt.Errorf("Failed to marshal instructions, %w", err)
-		}
-	*/
+func NewJob(ctx context.Context, instructions string) (*Job, error) {
 
 	id, err := NewJobId(ctx)
 
