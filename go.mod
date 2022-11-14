@@ -10,11 +10,14 @@ require (
 	github.com/rs/cors v1.8.2
 	github.com/sfomuseum/go-flags v0.10.0
 	github.com/sfomuseum/go-http-auth v0.0.5
+	github.com/tidwall/gjson v1.14.3
 )
 
 require (
 	github.com/akrylysov/algnhsa v0.12.1 // indirect
 	github.com/aws/aws-lambda-go v1.13.3 // indirect
 	github.com/stretchr/testify v1.8.0 // indirect
+	github.com/tidwall/match v1.1.1 // indirect
+	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/whosonfirst/go-sanitize v0.1.0 // indirect
 )
