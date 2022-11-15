@@ -89,5 +89,13 @@ func (job *Job) AsStatusResponse() *JobStatusResponse {
 		LastModified: job.LastModified,
 	}
 
+	if job.Error != "" {
+		status_rsp.Error = job.Error
+	}
+
+	if job.Results != "" {
+		status_rsp.Results = job.Results
+	}
+
 	return status_rsp
 }
