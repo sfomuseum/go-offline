@@ -42,7 +42,7 @@ func TestJobStatusHandler(t *testing.T) {
 
 	str_instructions := string(enc_instructions)
 
-	job, err := offline.NewJob(ctx, str_instructions)
+	job, err := offline.NewJob(ctx, "testing", str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)

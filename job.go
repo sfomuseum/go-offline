@@ -36,6 +36,7 @@ func (s Status) String() string {
 type Job struct {
 	Id           int64  `json:"id"`
 	Status       Status `json:"status"`
+	Creator      string `json:"creator"`
 	Created      int64  `json:"created"`
 	LastModified int64  `json:"lastmodified"`
 	Instructions string `json:"instructions"`
@@ -51,7 +52,7 @@ type JobStatusResponse struct {
 	Error        string `json:"error,omitempty"`
 }
 
-func NewJob(ctx context.Context, instructions string) (*Job, error) {
+func NewJob(ctx context.Context, creator string, instructions string) (*Job, error) {
 
 	id, err := NewJobId(ctx)
 
@@ -64,6 +65,7 @@ func NewJob(ctx context.Context, instructions string) (*Job, error) {
 
 	job := &Job{
 		Id:           id,
+		Creator:      creator,
 		Created:      ts,
 		LastModified: ts,
 		Status:       Pending,

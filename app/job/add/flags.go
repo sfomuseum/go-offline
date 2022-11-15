@@ -6,6 +6,7 @@ import (
 )
 
 var database_uri string
+var creator string
 var instructions string
 
 func DefaultFlagSet() *flag.FlagSet {
@@ -13,6 +14,7 @@ func DefaultFlagSet() *flag.FlagSet {
 	fs := flagset.NewFlagSet("offline")
 
 	fs.StringVar(&database_uri, "database-uri", "", "")
+	fs.StringVar(&creator, "creator", "", "")
 	fs.StringVar(&instructions, "instructions", "", "")
 
 	return fs

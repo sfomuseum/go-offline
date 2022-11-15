@@ -25,7 +25,7 @@ func TestNewJob(t *testing.T) {
 
 	str_instructions := string(enc_instructions)
 
-	j, err := NewJob(ctx, str_instructions)
+	j, err := NewJob(ctx, "testing", str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)
@@ -40,7 +40,7 @@ func TestJobStatusResponse(t *testing.T) {
 
 	ctx := context.Background()
 
-	j, err := NewJob(ctx, "testing")
+	j, err := NewJob(ctx, "testing", "testing")
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)

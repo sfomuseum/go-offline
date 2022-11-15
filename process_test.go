@@ -32,7 +32,7 @@ func TestProcessJob(t *testing.T) {
 
 	str_instructions := string(enc_instructions)
 
-	job, err := NewJob(ctx, str_instructions)
+	job, err := NewJob(ctx, "testing", str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)
@@ -52,8 +52,8 @@ func TestProcessJob(t *testing.T) {
 		t.Fatalf("Failed to update job, %v", err)
 	}
 
-	process_cb := func(ctx context.Context, job *Job) error {
-		return nil
+	process_cb := func(ctx context.Context, job *Job) (string, error) {
+		return "OK", nil
 	}
 
 	process_logger := log.Default()
@@ -69,5 +69,15 @@ func TestProcessJob(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("Failed to process job, %v", err)
+	}
+
+	job2, err := db.GetJob(ctx, job.Id)
+
+	if err != nil {
+		t.Fatalf("Failed to retrieve job %d, %v", job.Id, err)
+	}
+
+	if job2.Results != "OK" {
+		t.Fatalf("Unexpected job results, %s", job2.Results)
 	}
 }

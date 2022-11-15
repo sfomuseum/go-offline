@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-type ProcessJobCallbackFunc func(context.Context, *Job) error
+type ProcessJobCallbackFunc func(context.Context, *Job) (string, error)
 
 type ProcessJobOptions struct {
 	Database Database
@@ -42,6 +42,7 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 	}
 
 	var final_status Status
+	var final_results string
 	var final_error error
 
 	defer func() {
@@ -50,6 +51,8 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 
 		if final_error != nil {
 			job.Error = final_error.Error()
+		} else {
+			job.Results = final_results
 		}
 
 		err = offline_db.UpdateJob(ctx, job)
@@ -59,7 +62,7 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 		}
 	}()
 
-	err = opts.Callback(ctx, job)
+	results, err := opts.Callback(ctx, job)
 
 	if err != nil {
 
@@ -70,5 +73,7 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 	}
 
 	final_status = Completed
+	final_results = results
+
 	return nil
 }
