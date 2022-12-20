@@ -6,6 +6,7 @@ import (
 	"sync"
 )
 
+// SyncMapDatabase implements the `Database` interface storing and retrieving jobs from an internal `sync.Map` instance.
 type SyncMapDatabase struct {
 	Database
 	sync_map *sync.Map
@@ -16,6 +17,10 @@ func init() {
 	RegisterDatabase(ctx, "syncmap", NewSyncMapDatabase)
 }
 
+// NewSyncMapDatabase returns a new `SyncMapDatabase` instance configured by 'uri' which is
+// expected to take the form of:
+//
+//	syncmap://
 func NewSyncMapDatabase(ctx context.Context, uri string) (Database, error) {
 
 	sync_map := new(sync.Map)
@@ -27,11 +32,13 @@ func NewSyncMapDatabase(ctx context.Context, uri string) (Database, error) {
 	return db, nil
 }
 
+// AddJob() stores 'job' in 'db'.
 func (db *SyncMapDatabase) AddJob(ctx context.Context, job *Job) error {
 	db.sync_map.Store(job.Id, job)
 	return nil
 }
 
+// GetJob() returns a `Job` instance identified by 'job_id' from 'db'.
 func (db *SyncMapDatabase) GetJob(ctx context.Context, job_id int64) (*Job, error) {
 	v, ok := db.sync_map.Load(job_id)
 
@@ -42,16 +49,19 @@ func (db *SyncMapDatabase) GetJob(ctx context.Context, job_id int64) (*Job, erro
 	return v.(*Job), nil
 }
 
+// UpdateJob() stores the updated version of 'job' in 'db'.
 func (db *SyncMapDatabase) UpdateJob(ctx context.Context, job *Job) error {
 	db.sync_map.Store(job.Id, job)
 	return nil
 }
 
+// RemoveJob() removes 'job' from 'db'.
 func (db *SyncMapDatabase) RemoveJob(ctx context.Context, job *Job) error {
 	db.sync_map.Delete(job.Id)
 	return nil
 }
 
+// PruneJobs() removed jobs in 'db' whose status matches 'status' and whose last modified time is less that 'lastmodified'.
 func (db *SyncMapDatabase) PruneJobs(ctx context.Context, status Status, lastmodified int64) error {
 
 	list_cb := func(ctx context.Context, job *Job) error {
@@ -76,6 +86,7 @@ func (db *SyncMapDatabase) PruneJobs(ctx context.Context, status Status, lastmod
 	return db.ListJobs(ctx, list_cb)
 }
 
+// ListJobs() iterates through all the jobs in 'db' passing each to 'list_cb'.
 func (db *SyncMapDatabase) ListJobs(ctx context.Context, list_cb ListJobsCallback) error {
 
 	var list_err error

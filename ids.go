@@ -18,6 +18,7 @@ func init() {
 	node = n
 }
 
+// NewJobId returns a unique identifier to be associated with a new job.
 func NewJobId(ctx context.Context) (int64, error) {
 	id := node.Generate()
 	return id.Int64(), nil

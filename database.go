@@ -9,14 +9,23 @@ import (
 	"strings"
 )
 
+// type ListJobsCallback is a function type for custom processing of jobs.
 type ListJobsCallback func(context.Context, *Job) error
 
+// type Database is an interface for storing and retrieving `Job` instance for future processing.
+// Importantly the interface does not define any logic for how or when jobs are processed.
 type Database interface {
+	// AddJob adds a `Job` instance to the database.
 	AddJob(context.Context, *Job) error
+	// Retrieve a specific `Job` instance from the database using its unique identifier.
 	GetJob(context.Context, int64) (*Job, error)
+	// Update a specific `Job` instance in the database.
 	UpdateJob(context.Context, *Job) error
+	// Remove a specific `Job` instance from the database.
 	RemoveJob(context.Context, *Job) error
+	// Prune zero or more `Job` instances matching a specific `Status` type and created date from the database.
 	PruneJobs(context.Context, Status, int64) error
+	// List all of the `Jobs` in the database.
 	ListJobs(context.Context, ListJobsCallback) error
 }
 

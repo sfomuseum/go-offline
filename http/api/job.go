@@ -8,11 +8,16 @@ import (
 	"net/http"
 )
 
+// type JobStatusHandlerOptions defines a struct containing configuration options for the `JobStatusHandler` method.
 type JobStatusHandlerOptions struct {
-	Database      offline.Database
+	// A `sfomuseum/go-offline.Database` instance to query for jobs.
+	Database offline.Database
+	// A `sfomuseum/go-http-auth.Authenticator` instance to use to restrict access.
 	Authenticator auth.Authenticator
 }
 
+// JobStatusHandler() returns an `http.Handler` instance that will return a JSON-encoded `JobStatusResponse`
+// for a job identified by a HTTP GET "id" query parameter.
 func JobStatusHandler(opts *JobStatusHandlerOptions) http.Handler {
 
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
