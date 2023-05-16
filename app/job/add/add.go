@@ -4,9 +4,10 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"log"
+
 	"github.com/sfomuseum/go-flags/flagset"
 	"github.com/sfomuseum/go-offline"
-	"log"
 )
 
 func Run(ctx context.Context, logger *log.Logger) error {

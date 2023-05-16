@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/sfomuseum/go-http-auth"
-	"github.com/sfomuseum/go-offline"
 	"net/http"
 	"strconv"
 	"testing"
+
+	"github.com/sfomuseum/go-http-auth"
+	"github.com/sfomuseum/go-offline"
 )
 
 func TestJobStatusHandler(t *testing.T) {

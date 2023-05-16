@@ -2,6 +2,7 @@ package add
 
 import (
 	"flag"
+
 	"github.com/sfomuseum/go-flags/flagset"
 )
 

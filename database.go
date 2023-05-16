@@ -3,10 +3,11 @@ package offline
 import (
 	"context"
 	"fmt"
-	"github.com/aaronland/go-roster"
 	"net/url"
 	"sort"
 	"strings"
+
+	"github.com/aaronland/go-roster"
 )
 
 // type ListJobsCallback is a function type for custom processing of jobs.

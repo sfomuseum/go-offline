@@ -2,6 +2,7 @@ package offline
 
 import (
 	"context"
+
 	"github.com/bwmarrin/snowflake"
 )
 

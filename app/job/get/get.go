@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/sfomuseum/go-flags/flagset"
-	"github.com/sfomuseum/go-offline"
 	"log"
 	"os"
+
+	"github.com/sfomuseum/go-flags/flagset"
+	"github.com/sfomuseum/go-offline"
 )
 
 func Run(ctx context.Context, logger *log.Logger) error {

@@ -2,10 +2,11 @@ package api
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/aaronland/go-http-sanitize"
 	"github.com/sfomuseum/go-http-auth"
 	"github.com/sfomuseum/go-offline"
-	"net/http"
 )
 
 // type JobStatusHandlerOptions defines a struct containing configuration options for the `JobStatusHandler` method.

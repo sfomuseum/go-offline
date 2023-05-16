@@ -4,14 +4,15 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/aaronland/go-http-server"
 	"github.com/rs/cors"
 	"github.com/sfomuseum/go-flags/flagset"
 	"github.com/sfomuseum/go-http-auth"
 	"github.com/sfomuseum/go-offline"
 	"github.com/sfomuseum/go-offline/http/api"
-	"log"
-	"net/http"
 )
 
 type RunOptions struct {

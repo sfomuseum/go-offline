@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/sfomuseum/go-offline/app/status/server"
 	"log"
+
+	"github.com/sfomuseum/go-offline/app/status/server"
 )
 
 func main() {
