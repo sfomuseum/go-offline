@@ -106,3 +106,7 @@ func (db *SyncMapDatabase) ListJobs(ctx context.Context, list_cb ListJobsCallbac
 
 	return list_err
 }
+
+func (db *SyncMapDatabase) Close(ctx context.Context) error {
+	return nil
+}

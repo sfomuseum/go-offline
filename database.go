@@ -28,6 +28,8 @@ type Database interface {
 	PruneJobs(context.Context, Status, int64) error
 	// List all of the `Jobs` in the database.
 	ListJobs(context.Context, ListJobsCallback) error
+	// Close closes any underlying database connections
+	Close(context.Context) error
 }
 
 var database_roster roster.Roster
