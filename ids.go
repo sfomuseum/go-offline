@@ -2,7 +2,8 @@ package offline
 
 import (
 	"context"
-
+	"math/rand"
+	
 	"github.com/bwmarrin/snowflake"
 )
 
@@ -10,7 +11,8 @@ var node *snowflake.Node
 
 func init() {
 
-	n, err := snowflake.NewNode(1)
+	node_id := rand.Int63n(1023)
+	n, err := snowflake.NewNode(node_id)
 
 	if err != nil {
 		panic(err)
