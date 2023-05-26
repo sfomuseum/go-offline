@@ -5,7 +5,9 @@ import (
 	"testing"
 )
 
-func TestNewId(t *testing.T) {
+func TestNewJobId(t *testing.T) {
+
+	SNOWFLAKE_NODE_ID = int64(674)
 
 	ctx := context.Background()
 	_, err := NewJobId(ctx)
