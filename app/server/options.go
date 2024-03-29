@@ -9,6 +9,7 @@ import (
 
 type RunOptions struct {
 	OfflineDatabaseURI   string
+	OfflineQueueURI      string
 	AuthenticatorURI     string
 	EnableCORS           bool
 	CORSAllowedOrigins   []string
@@ -27,6 +28,7 @@ func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 
 	opts := &RunOptions{
 		OfflineDatabaseURI:   offline_database_uri,
+		OfflineQueueURI:      offline_queue_uri,
 		AuthenticatorURI:     authenticator_uri,
 		EnableCORS:           enable_cors,
 		CORSAllowedOrigins:   cors_origins,

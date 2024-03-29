@@ -30,7 +30,8 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet, logger *slog.Logger) 
 func RunWithOptions(ctx context.Context, opts *RunOptions, logger *slog.Logger) error {
 
 	handlers := map[string]handler.RouteHandlerFunc{
-		"/status": statusHandlerFunc,
+		"/status":   statusHandlerFunc,
+		"/schedule": scheduleHandlerFunc,
 	}
 
 	log_logger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)

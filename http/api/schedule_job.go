@@ -14,7 +14,8 @@ import (
 type ScheduleJobHandlerOptions struct {
 	// A `sfomuseum/go-offline.Database` instance to query for jobs.
 	OfflineDatabase offline.Database
-	OfflineQueue    offline.Queue
+	// A `sfomuseum/go-offline.Queue` instance to schedule jobs.
+	OfflineQueue offline.Queue
 	// A `sfomuseum/go-http-auth.Authenticator` instance to use to restrict access.
 	Authenticator auth.Authenticator
 }

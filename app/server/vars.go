@@ -14,7 +14,6 @@ var setupCommonOnce sync.Once
 var setupCommonError error
 
 var offline_db offline.Database
-
 var authenticator auth.Authenticator
 
 var cors_wrapper *cors.Cors
