@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/sfomuseum/go-offline/app/status/server"
+	"github.com/sfomuseum/go-offline/app/server"
 )
 
 func main() {

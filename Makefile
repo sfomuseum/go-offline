@@ -5,7 +5,7 @@ cli:
 	go build -mod $(GOMOD) -ldflags="-s -w" -o bin/add-job cmd/add-job/main.go
 	go build -mod $(GOMOD) -ldflags="-s -w" -o bin/get-job cmd/get-job/main.go
 	go build -mod $(GOMOD) -ldflags="-s -w" -o bin/remove-job cmd/remove-job/main.go
-	go build -mod $(GOMOD) -ldflags="-s -w" -o bin/job-status-server cmd/job-status-server/main.go
+	go build -mod $(GOMOD) -ldflags="-s -w" -o bin/job-server cmd/job-server/main.go
 
 debug-add-job:
 	go run -mod $(GOMOD) -w" cmd/add-job/main.go -instructions '{"hello":"world"}'
