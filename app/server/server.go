@@ -30,9 +30,9 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet, logger *slog.Logger) 
 func RunWithOptions(ctx context.Context, opts *RunOptions, logger *slog.Logger) error {
 
 	run_opts = opts
-	
+
 	handlers := map[string]handler.RouteHandlerFunc{
-		"GET /status":   statusHandlerFunc,
+		"GET /status":    statusHandlerFunc,
 		"POST /schedule": scheduleHandlerFunc,
 	}
 

@@ -8,6 +8,7 @@ import (
 	"github.com/aaronland/go-http-sanitize"
 	"github.com/sfomuseum/go-http-auth"
 	"github.com/sfomuseum/go-offline"
+	off_http "github.com/sfomuseum/go-offline/http"
 )
 
 // type JobStatusHandlerOptions defines a struct containing configuration options for the `JobStatusHandler` method.
@@ -27,12 +28,17 @@ func JobStatusHandler(opts *JobStatusHandlerOptions) http.Handler {
 		ctx := req.Context()
 		logger := slog.Default()
 
-		_, err := opts.Authenticator.GetAccountForRequest(req)
+		logger = off_http.LoggerWithRequest(req, logger)
+
+		acct, err := opts.Authenticator.GetAccountForRequest(req)
 
 		if err != nil {
+			logger.Error("Not authorized", "error", err)
 			http.Error(rsp, "Not authorized", http.StatusUnauthorized)
 			return
 		}
+
+		logger = logger.With("account", acct.Name)
 
 		id, err := sanitize.GetInt64(req, "id")
 

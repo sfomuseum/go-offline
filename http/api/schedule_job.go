@@ -5,9 +5,9 @@ import (
 	"log/slog"
 	"net/http"
 
-	// "github.com/aaronland/go-http-sanitize"
 	"github.com/sfomuseum/go-http-auth"
 	"github.com/sfomuseum/go-offline"
+	off_http "github.com/sfomuseum/go-offline/http"
 )
 
 // type ScheduleJobHandlerOptions defines a struct containing configuration options for the `ScheduleJobHandler` method.
@@ -21,7 +21,7 @@ type ScheduleJobHandlerOptions struct {
 }
 
 type ScheduleJobInput struct {
-	// TBD...
+	Instructions interface{} `json:"instructions"`
 }
 
 // ScheduleJobHandler() returns an `http.Handler` instance that...
@@ -32,9 +32,12 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 		ctx := req.Context()
 		logger := slog.Default()
 
+		logger = off_http.LoggerWithRequest(req, logger)
+
 		acct, err := opts.Authenticator.GetAccountForRequest(req)
 
 		if err != nil {
+			logger.Error("Not authorized", "error", err)
 			http.Error(rsp, "Not authorized", http.StatusUnauthorized)
 			return
 		}
