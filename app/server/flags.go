@@ -33,7 +33,7 @@ func DefaultFlagSet() *flag.FlagSet {
 
 	fs.StringVar(&server_uri, "server-uri", "http://localhost:8080", "")
 
-	fs.BoolVar(&enable_cors, "enable-cors", true, "A boolean flag to enable CORS headers")
+	fs.BoolVar(&enable_cors, "enable-cors", false, "A boolean flag to enable CORS headers")
 
 	fs.Var(&cors_origins, "cors-origin", "One or more hosts to restrict CORS support to on the API endpoint.")
 

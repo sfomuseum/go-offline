@@ -31,6 +31,7 @@ func statusHandlerFunc(ctx context.Context) (http.Handler, error) {
 		status_handler = cors_wrapper.Handler(status_handler)
 	}
 
+	status_handler = authenticator.WrapHandler(status_handler)	
 	return status_handler, nil
 }
 
@@ -62,5 +63,6 @@ func scheduleHandlerFunc(ctx context.Context) (http.Handler, error) {
 		schedule_handler = cors_wrapper.Handler(schedule_handler)
 	}
 
+	schedule_handler = authenticator.WrapHandler(schedule_handler)
 	return schedule_handler, nil
 }
