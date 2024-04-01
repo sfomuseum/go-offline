@@ -32,8 +32,8 @@ func RunWithOptions(ctx context.Context, opts *RunOptions, logger *slog.Logger) 
 	run_opts = opts
 	
 	handlers := map[string]handler.RouteHandlerFunc{
-		"/status":   statusHandlerFunc,
-		"/schedule": scheduleHandlerFunc,
+		"GET /status":   statusHandlerFunc,
+		"POST /schedule": scheduleHandlerFunc,
 	}
 
 	log_logger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)

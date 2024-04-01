@@ -23,7 +23,7 @@ lambda-server:
 	zip server.zip bootstrap
 	rm -f bootstrap
 
-debug:
+debug-server:
 	go run cmd/job-server/main.go \
 		-offline-database-uri syncmap:// \
 		-authenticator-uri sharedsecret://s33kret
