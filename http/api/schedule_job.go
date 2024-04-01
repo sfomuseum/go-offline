@@ -15,12 +15,14 @@ type ScheduleJobHandlerOptions struct {
 	// A `sfomuseum/go-offline.Database` instance to query for jobs.
 	OfflineDatabase offline.Database
 	// A `sfomuseum/go-offline.Queue` instance to schedule jobs.
-	OfflineQueue offline.Queue
+	// OfflineQueue offline.Queue
 	// A `sfomuseum/go-http-auth.Authenticator` instance to use to restrict access.
-	Authenticator auth.Authenticator
+	OfflineQueueMux map[string]offline.Queue
+	Authenticator   auth.Authenticator
 }
 
 type ScheduleJobInput struct {
+	Type         string      `json:"type"`
 	Instructions interface{} `json:"instructions"`
 }
 
@@ -55,6 +57,22 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 			return
 		}
 
+		job_type := input.Type
+
+		offline_q, exists := opts.OfflineQueueMux[job_type]
+
+		if !exists {
+			offline_q, exists = opts.OfflineQueueMux["*"]
+		}
+
+		if !exists {
+			logger.Error("Failed to derive queue for job", "type", job_type)
+			http.Error(rsp, "Not found", http.StatusNotFound)
+			return
+		}
+
+		logger = logger.With("job type", job_type)
+
 		enc_input, err := json.Marshal(input)
 
 		if err != nil {
@@ -63,7 +81,7 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 			return
 		}
 
-		job, err := offline.ScheduleJob(ctx, opts.OfflineDatabase, opts.OfflineQueue, acct.Name, string(enc_input))
+		job, err := offline.ScheduleJob(ctx, opts.OfflineDatabase, offline_q, acct.Name, string(enc_input))
 
 		if err != nil {
 			logger.Error("Failed to schedule update for offline job", "error", err)

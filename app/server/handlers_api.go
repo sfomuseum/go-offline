@@ -44,15 +44,21 @@ func scheduleHandlerFunc(ctx context.Context) (http.Handler, error) {
 		return nil, fmt.Errorf("Failed to set up common configuration, %w", setupCommonError)
 	}
 
-	offline_q, err := offline.NewQueue(ctx, run_opts.OfflineQueueURI)
+	q_mux := make(map[string]offline.Queue)
 
-	if err != nil {
-		return nil, fmt.Errorf("Failed to instantiate offline queue, %w", err)
-	}
+	// TO DO: populate q_mux...
+
+	/*
+		offline_q, err := offline.NewQueue(ctx, run_opts.OfflineQueueURI)
+
+		if err != nil {
+			return nil, fmt.Errorf("Failed to instantiate offline queue, %w", err)
+		}
+	*/
 
 	schedule_handler_opts := &api.ScheduleJobHandlerOptions{
 		OfflineDatabase: offline_db,
-		OfflineQueue:    offline_q,
+		OfflineQueueMux: q_mux,
 		Authenticator:   authenticator,
 	}
 
