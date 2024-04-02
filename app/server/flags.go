@@ -8,7 +8,7 @@ import (
 )
 
 var offline_database_uri string
-var offline_queue_uri string
+var offline_queue_uris multi.KeyValueCSVString
 
 var authenticator_uri string
 
@@ -27,7 +27,7 @@ func DefaultFlagSet() *flag.FlagSet {
 	fs := flagset.NewFlagSet("offline")
 
 	fs.StringVar(&offline_database_uri, "offline-database-uri", "", "")
-	fs.StringVar(&offline_queue_uri, "offline-queue-uri", "", "")
+	fs.Var(&offline_queue_uris, "offline-queue-uri", "One or more {JOB_TYPE}={OFFLINE_QUEUE_URI} pairs. Pairs may also be specified as a comma-separated list.")
 
 	fs.StringVar(&authenticator_uri, "authenticator-uri", "null://", "")
 

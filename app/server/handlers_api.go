@@ -6,7 +6,6 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/sfomuseum/go-offline"
 	"github.com/sfomuseum/go-offline/http/api"
 )
 
@@ -44,21 +43,9 @@ func scheduleHandlerFunc(ctx context.Context) (http.Handler, error) {
 		return nil, fmt.Errorf("Failed to set up common configuration, %w", setupCommonError)
 	}
 
-	q_mux := make(map[string]offline.Queue)
-
-	// TO DO: populate q_mux...
-
-	/*
-		offline_q, err := offline.NewQueue(ctx, run_opts.OfflineQueueURI)
-
-		if err != nil {
-			return nil, fmt.Errorf("Failed to instantiate offline queue, %w", err)
-		}
-	*/
-
 	schedule_handler_opts := &api.ScheduleJobHandlerOptions{
 		OfflineDatabase: offline_db,
-		OfflineQueueMux: q_mux,
+		OfflineQueueMux: run_opts.OfflineQueueMux,
 		Authenticator:   authenticator,
 	}
 

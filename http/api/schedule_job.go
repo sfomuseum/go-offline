@@ -59,6 +59,12 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 
 		job_type := input.Type
 
+		if job_type == "" {
+			logger.Error("Missing job type")
+			http.Error(rsp, "Bad request", http.StatusBadRequest)
+			return
+		}
+
 		offline_q, exists := opts.OfflineQueueMux[job_type]
 
 		if !exists {

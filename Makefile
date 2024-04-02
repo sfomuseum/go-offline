@@ -26,4 +26,5 @@ lambda-server:
 debug-server:
 	go run cmd/job-server/main.go \
 		-offline-database-uri syncmap:// \
+		-offline-queue-uri '*=stdout://' \
 		-authenticator-uri sharedsecret://s33kret
