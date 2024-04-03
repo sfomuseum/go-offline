@@ -79,15 +79,15 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 
 		logger = logger.With("job type", job_type)
 
-		enc_input, err := json.Marshal(input)
+		enc_instructions, err := json.Marshal(input.Instructions)
 
 		if err != nil {
-			logger.Error("Failed to encode input", "error", err)
-			http.Error(rsp, "Failed to encode input", http.StatusBadRequest)
+			logger.Error("Failed to encode instructions", "error", err)
+			http.Error(rsp, "Failed to encode instructions", http.StatusBadRequest)
 			return
 		}
 
-		job, err := offline.ScheduleJob(ctx, opts.OfflineDatabase, offline_q, acct.Name, string(enc_input))
+		job, err := offline.ScheduleJob(ctx, opts.OfflineDatabase, offline_q, acct.Name, string(enc_instructions))
 
 		if err != nil {
 			logger.Error("Failed to schedule update for offline job", "error", err)
