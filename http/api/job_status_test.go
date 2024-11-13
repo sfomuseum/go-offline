@@ -56,8 +56,8 @@ func TestJobStatusHandler(t *testing.T) {
 	}
 
 	handler_opts := &JobStatusHandlerOptions{
-		Database:      db,
-		Authenticator: authenticator,
+		OfflineDatabase: db,
+		Authenticator:   authenticator,
 	}
 
 	handler := JobStatusHandler(handler_opts)
