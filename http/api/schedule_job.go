@@ -87,7 +87,7 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 			return
 		}
 
-		job, err := offline.ScheduleJob(ctx, opts.OfflineDatabase, offline_q, acct.Name, string(enc_instructions))
+		job, err := offline.ScheduleJob(ctx, opts.OfflineDatabase, offline_q, acct.Name(), string(enc_instructions))
 
 		if err != nil {
 			logger.Error("Failed to schedule update for offline job", "error", err)
