@@ -9,7 +9,7 @@ require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/rs/cors v1.11.1
 	github.com/sfomuseum/go-flags v0.10.0
-	github.com/sfomuseum/go-http-auth v0.12.0
+	github.com/sfomuseum/go-http-auth v1.0.0
 	github.com/tidwall/gjson v1.18.0
 )
 
