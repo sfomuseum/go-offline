@@ -8,6 +8,7 @@ import (
 
 var database_uri string
 var creator string
+var job_type string
 var instructions string
 
 func DefaultFlagSet() *flag.FlagSet {
@@ -16,6 +17,7 @@ func DefaultFlagSet() *flag.FlagSet {
 
 	fs.StringVar(&database_uri, "database-uri", "", "")
 	fs.StringVar(&creator, "creator", "", "")
+	fs.StringVar(&job_type, "type", "", "")
 	fs.StringVar(&instructions, "instructions", "", "")
 
 	return fs

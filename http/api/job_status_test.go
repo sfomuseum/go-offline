@@ -30,6 +30,8 @@ func TestJobStatusHandler(t *testing.T) {
 		t.Fatalf("Failed to create new authenticator, %v", err)
 	}
 
+	job_type := "testing"
+
 	instructions := map[string]interface{}{
 		"name": "testing",
 		"id":   1234,
@@ -43,7 +45,7 @@ func TestJobStatusHandler(t *testing.T) {
 
 	str_instructions := string(enc_instructions)
 
-	job, err := offline.NewJob(ctx, "testing", str_instructions)
+	job, err := offline.NewJob(ctx, "testing", job_type, str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)

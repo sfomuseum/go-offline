@@ -3,7 +3,6 @@ package offline
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"testing"
 )
 
@@ -19,6 +18,8 @@ func TestProcessJob(t *testing.T) {
 		t.Fatalf("Failed to create new database, %v", err)
 	}
 
+	job_type := "testing"
+
 	instructions := map[string]interface{}{
 		"name": "testing",
 		"id":   1234,
@@ -32,7 +33,7 @@ func TestProcessJob(t *testing.T) {
 
 	str_instructions := string(enc_instructions)
 
-	job, err := NewJob(ctx, "testing", str_instructions)
+	job, err := NewJob(ctx, "testing", job_type, str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)
@@ -56,11 +57,8 @@ func TestProcessJob(t *testing.T) {
 		return "OK", nil
 	}
 
-	process_logger := log.Default()
-
 	process_opts := &ProcessJobOptions{
 		Database: db,
-		Logger:   process_logger,
 		Callback: process_cb,
 		JobId:    job.Id,
 	}

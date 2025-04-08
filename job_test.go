@@ -12,6 +12,8 @@ func TestNewJob(t *testing.T) {
 
 	ctx := context.Background()
 
+	job_type := "testing"
+
 	instructions := map[string]interface{}{
 		"name": "testing",
 		"id":   1234,
@@ -25,7 +27,7 @@ func TestNewJob(t *testing.T) {
 
 	str_instructions := string(enc_instructions)
 
-	j, err := NewJob(ctx, "testing", str_instructions)
+	j, err := NewJob(ctx, "testing", job_type, str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)
@@ -34,13 +36,18 @@ func TestNewJob(t *testing.T) {
 	if j.Status != Pending {
 		t.Fatalf("Unexpected status: %v", j.Status)
 	}
+
+	if j.Type != job_type {
+		t.Fatalf("Invalid job type. Expected '%s' but got '%s'", job_type, j.Type)
+	}
+
 }
 
 func TestJobStatusResponse(t *testing.T) {
 
 	ctx := context.Background()
 
-	j, err := NewJob(ctx, "testing", "testing")
+	j, err := NewJob(ctx, "testing", "testing", "testing")
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)

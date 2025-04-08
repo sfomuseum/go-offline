@@ -5,9 +5,9 @@ import (
 	"fmt"
 )
 
-func ScheduleJob(ctx context.Context, offline_db Database, offline_q Queue, creator string, instructions string) (*Job, error) {
+func ScheduleJob(ctx context.Context, offline_db Database, offline_q Queue, creator string, job_type string, instructions string) (*Job, error) {
 
-	job, err := NewJob(ctx, creator, instructions)
+	job, err := NewJob(ctx, creator, job_type, instructions)
 
 	if err != nil {
 		return nil, fmt.Errorf("Failed to create offline job, %v", err)
