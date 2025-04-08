@@ -26,6 +26,8 @@ func TestScheduleJob(t *testing.T) {
 		t.Fatalf("Failed to create new queue, %v", err)
 	}
 
+	job_type := "testing"
+
 	instructions := map[string]interface{}{
 		"name": "testing",
 		"id":   1234,
@@ -39,7 +41,7 @@ func TestScheduleJob(t *testing.T) {
 
 	str_instructions := string(enc_instructions)
 
-	_, err = ScheduleJob(ctx, db, q, "testing", str_instructions)
+	_, err = ScheduleJob(ctx, db, q, "testing", job_type, str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to schedule job, %v", err)

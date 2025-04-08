@@ -20,6 +20,8 @@ func TestSyncMapDatabase(t *testing.T) {
 		t.Fatalf("Failed to create new database, %v", err)
 	}
 
+	job_type := "testing"
+
 	instructions := map[string]interface{}{
 		"name": "testing",
 		"id":   1234,
@@ -33,7 +35,7 @@ func TestSyncMapDatabase(t *testing.T) {
 
 	str_instructions := string(enc_instructions)
 
-	job, err := NewJob(ctx, "testing", str_instructions)
+	job, err := NewJob(ctx, "testing", job_type, str_instructions)
 
 	if err != nil {
 		t.Fatalf("Failed to create new job, %v", err)
@@ -49,6 +51,10 @@ func TestSyncMapDatabase(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("Failed to retrieve job, %v", err)
+	}
+
+	if job.Type != job_type {
+		t.Fatalf("Invalid job type. Expected '%s' but got '%s'", job_type, job.Type)
 	}
 
 	str_instructions = job.Instructions
@@ -119,6 +125,8 @@ func TestPruneAndListJobs(t *testing.T) {
 		t.Fatalf("Failed to create new database, %v", err)
 	}
 
+	job_type := "testing"
+
 	instructions := map[string]interface{}{
 		"name": "testing",
 		"id":   1234,
@@ -134,7 +142,7 @@ func TestPruneAndListJobs(t *testing.T) {
 
 		str_instructions := string(enc_instructions)
 
-		job, err := NewJob(ctx, "testing", str_instructions)
+		job, err := NewJob(ctx, "testing", job_type, str_instructions)
 
 		if err != nil {
 			t.Fatalf("Failed to create new job, %v", err)

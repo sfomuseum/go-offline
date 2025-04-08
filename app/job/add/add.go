@@ -25,7 +25,7 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet, logger *log.Logger) e
 		return fmt.Errorf("Failed to create offline database for '%s', %w", database_uri, err)
 	}
 
-	job, err := offline.NewJob(ctx, creator, instructions)
+	job, err := offline.NewJob(ctx, creator, job_type, instructions)
 
 	if err != nil {
 		return fmt.Errorf("Failed to create new job, %w", err)
