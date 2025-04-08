@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"net/url"
 
 	"github.com/sfomuseum/go-flags/flagset"
 	"github.com/sfomuseum/go-offline"
@@ -41,6 +42,12 @@ func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 
 		if exists {
 			return nil, fmt.Errorf("Multiple values for '%s' job type", job_type)
+		}
+
+		offline_uri, err := url.QueryUnescape(offline_uri)
+
+		if err != nil {
+			return nil, fmt.Errorf("Failed to unescape URI '%s' for job '%s', %w", offline_uri, job_type, err)
 		}
 
 		offline_q, err := offline.NewQueue(ctx, offline_uri)
