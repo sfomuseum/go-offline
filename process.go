@@ -22,8 +22,6 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 	logger := slog.Default()
 	logger = logger.With("job id", job_id)
 
-	logger.Debug("Process job")
-
 	job, err := offline_db.GetJob(ctx, job_id)
 
 	if err != nil {
