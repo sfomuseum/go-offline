@@ -22,6 +22,8 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 	logger := slog.Default()
 	logger = logger.With("job id", job_id)
 
+	logger.Debug("Fetch job")
+	
 	job, err := offline_db.GetJob(ctx, job_id)
 
 	if err != nil {
@@ -34,6 +36,7 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 		return nil
 	}
 
+	logger.Debug("Mark job as processing")
 	job.Status = Processing
 
 	err = offline_db.UpdateJob(ctx, job)
@@ -49,6 +52,7 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 
 	defer func() {
 
+		logger.Debug("Update job with final status", "status", final_status)
 		job.Status = final_status
 
 		if final_error != nil {
@@ -64,6 +68,7 @@ func ProcessJob(ctx context.Context, opts *ProcessJobOptions) error {
 		}
 	}()
 
+	logger.Debug("Dispatch job callback")
 	results, err := opts.Callback(ctx, job)
 
 	if err != nil {
