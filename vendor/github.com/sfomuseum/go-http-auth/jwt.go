@@ -13,6 +13,8 @@ import (
 	"github.com/sfomuseum/runtimevar"
 )
 
+const AUTHORIZATION_HEADER string = "Authentication"
+
 var re_auth = regexp.MustCompile(`Bearer\s+((?:[_\-A-Za-z0-9+/]*={0,3})\.(?:[_\-A-Za-z0-9+/]*={0,3})\.([_\-A-Za-z0-9+/]*={0,3}))$`)
 
 func init() {
@@ -33,7 +35,8 @@ type JWTAuthenticatorClaims struct {
 // with all requests.
 type JWTAuthenticator struct {
 	Authenticator
-	secret string
+	secret               string
+	authorization_header string
 }
 
 // NewJWTAuthenticator implements the Authenticator interface to ensure that requests contain a `Authorization: Bearer {JWT_TOKEN}` HTTP
@@ -47,6 +50,11 @@ type JWTAuthenticator struct {
 //
 // Where {GOCLOUD_DEV_RUNTIMEVAR_URI} is a valid `gocloud.dev/runtimevar` URI used to dereference the JWT signing secret.
 // Under the hood this method using the `github.com/sfomuseum/runtimevar.StringVar` method to dereference runtimevar URIs.
+//
+// By default a `JWTAuthenticator` instance looks for JWT Bearer tokens in the HTTP "Authorization" header. This behaviour
+// can be customized by passing an "authorization-header" query parameter in 'uri'. For example:
+//
+//	jwt://?authorization-header=X-Custom-AuthHeader
 func NewJWTAuthenticator(ctx context.Context, uri string) (Authenticator, error) {
 
 	u, err := url.Parse(uri)
@@ -55,11 +63,12 @@ func NewJWTAuthenticator(ctx context.Context, uri string) (Authenticator, error)
 		return nil, fmt.Errorf("Failed to parse URI, %w", err)
 	}
 
+	q := u.Query()
+
 	secret := u.Host
 
 	if secret == "runtimevar" {
 
-		q := u.Query()
 		runtimevar_uri := q.Get("runtimevar-uri")
 
 		s, err := runtimevar.StringVar(ctx, runtimevar_uri)
@@ -75,8 +84,15 @@ func NewJWTAuthenticator(ctx context.Context, uri string) (Authenticator, error)
 		return nil, fmt.Errorf("Missing or invalid secret")
 	}
 
+	authorization_header := AUTHORIZATION_HEADER
+
+	if q.Has("authorization-header") {
+		authorization_header = q.Get("authorization-header")
+	}
+
 	a := &JWTAuthenticator{
-		secret: secret,
+		secret:               secret,
+		authorization_header: authorization_header,
 	}
 
 	return a, nil
@@ -102,15 +118,15 @@ func (a *JWTAuthenticator) WrapHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(fn)
 }
 
-// GetAccountForRequest returns an stub `Account` instance for requests that contain a valid `Authorization: Bearer {JWT_TOKEN}` HTTP header.
+// GetAccountForRequest returns an stub `Account` instance for requests that contain a valid `Authorization: Bearer {JWT_TOKEN}` HTTP header (or a custom header if defined in the `JWTAuthenticator` constuctor URI).
 func (a *JWTAuthenticator) GetAccountForRequest(req *http.Request) (Account, error) {
 
 	var acct Account
 
-	auth_header := req.Header.Get("Authorization")
+	auth_header := req.Header.Get(a.authorization_header)
 
 	if !re_auth.MatchString(auth_header) {
-		slog.Error("Authorization header mismatch", "value", auth_header)
+		slog.Error("Authorization header mismatch", "header", a.authorization_header, "value", auth_header)
 		return nil, fmt.Errorf("Invalid auth header")
 	}
 
