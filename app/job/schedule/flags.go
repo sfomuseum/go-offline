@@ -1,4 +1,4 @@
-package get
+package schedule
 
 import (
 	"flag"
