@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"log/slog"
 	"net/url"
 
 	"github.com/sfomuseum/go-flags/flagset"
@@ -18,6 +19,14 @@ func Run(ctx context.Context) error {
 func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 
 	flagset.Parse(fs)
+
+	if verbose {
+		slog.SetLogLoggerLevel(slog.LevelDebug)
+		slog.Debug("Verbose logging enabled")
+	}
+
+	logger := slog.Default()
+	logger = logger.With("job id", job_id)
 
 	offline_db, err := offline.NewDatabase(ctx, offline_database_uri)
 
@@ -73,6 +82,8 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 		return fmt.Errorf("Job status is not pending (%d)", job.Status)
 	}
 
+	logger.Debug("Set job status to queued")
+
 	job.Status = offline.Queued
 
 	err = offline_db.UpdateJob(ctx, job)
@@ -81,19 +92,23 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 		return fmt.Errorf("Failed to update offline job status (to queued), %w", err)
 	}
 
+	logger.Debug("Schedule job")
+
 	err = offline_q.ScheduleJob(ctx, job.Id)
 
 	if err != nil {
+
+		logger.Debug("Set job status to pending")
 
 		job.Status = offline.Pending
 
 		status_err := offline_db.UpdateJob(ctx, job)
 
 		if status_err != nil {
-			return fmt.Errorf("Failed to add offline job, %w. Also failed to update offline job status (to pending), %w", err, status_err)
+			return fmt.Errorf("Failed to schedule offline job, %w. Also failed to update offline job status (to pending), %w", err, status_err)
 		}
 
-		return fmt.Errorf("Failed to add offline job, %w", err)
+		return fmt.Errorf("Failed to schedule offline job, %w", err)
 	}
 
 	// Wait for job to complete?
