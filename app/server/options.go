@@ -31,6 +31,8 @@ func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 
 	ctx := context.Background()
 
+	// START OF put me in a function with well-defined types etc.
+
 	q_mux := make(map[string]offline.Queue)
 
 	for _, kv := range offline_queue_uris {
@@ -58,6 +60,8 @@ func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 
 		q_mux[job_type] = offline_q
 	}
+
+	// END OF put me in a function with well-defined types etc.
 
 	opts := &RunOptions{
 		OfflineDatabaseURI:   offline_database_uri,
