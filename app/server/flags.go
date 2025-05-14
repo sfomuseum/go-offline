@@ -21,6 +21,7 @@ var cors_origins multi.MultiCSVString
 var cors_allow_credentials bool
 
 var path_status string
+var verbose bool
 
 func DefaultFlagSet() *flag.FlagSet {
 
@@ -39,5 +40,6 @@ func DefaultFlagSet() *flag.FlagSet {
 
 	fs.BoolVar(&cors_allow_credentials, "cors-allow-credentials", false, "A boolean flag indicating whether or not to allow credentials headers for CORS requests.")
 
+	fs.BoolVar(&verbose, "verbose", false, "Enable verbose (debug) logging.")
 	return fs
 }

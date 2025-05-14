@@ -17,6 +17,7 @@ type RunOptions struct {
 	EnableCORS           bool
 	CORSAllowedOrigins   []string
 	CORSAllowCredentials bool
+	Verbose              bool
 }
 
 func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
@@ -70,6 +71,7 @@ func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 		EnableCORS:           enable_cors,
 		CORSAllowedOrigins:   cors_origins,
 		CORSAllowCredentials: cors_allow_credentials,
+		Verbose:              verbose,
 	}
 
 	return opts, nil
