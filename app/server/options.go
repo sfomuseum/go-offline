@@ -17,6 +17,7 @@ type RunOptions struct {
 	EnableCORS           bool
 	CORSAllowedOrigins   []string
 	CORSAllowCredentials bool
+	Verbose              bool
 }
 
 func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
@@ -30,6 +31,8 @@ func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 	}
 
 	ctx := context.Background()
+
+	// START OF put me in a function with well-defined types etc.
 
 	q_mux := make(map[string]offline.Queue)
 
@@ -59,6 +62,8 @@ func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 		q_mux[job_type] = offline_q
 	}
 
+	// END OF put me in a function with well-defined types etc.
+
 	opts := &RunOptions{
 		OfflineDatabaseURI:   offline_database_uri,
 		OfflineQueueMux:      q_mux,
@@ -66,6 +71,7 @@ func DeriveRunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 		EnableCORS:           enable_cors,
 		CORSAllowedOrigins:   cors_origins,
 		CORSAllowCredentials: cors_allow_credentials,
+		Verbose:              verbose,
 	}
 
 	return opts, nil

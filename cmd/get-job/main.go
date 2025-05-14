@@ -10,11 +10,9 @@ import (
 func main() {
 
 	ctx := context.Background()
-	logger := log.Default()
-
-	err := get.Run(ctx, logger)
+	err := get.Run(ctx)
 
 	if err != nil {
-		logger.Fatalf("Failed to add job, %v", err)
+		log.Fatalf("Failed to add job, %v", err)
 	}
 }

@@ -11,12 +11,12 @@ import (
 	"github.com/aaronland/go-http-server/handler"
 )
 
-func Run(ctx context.Context, logger *slog.Logger) error {
+func Run(ctx context.Context) error {
 	fs := DefaultFlagSet()
-	return RunWithFlagSet(ctx, fs, logger)
+	return RunWithFlagSet(ctx, fs)
 }
 
-func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet, logger *slog.Logger) error {
+func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 
 	opts, err := DeriveRunOptionsFromFlagSet(fs)
 
@@ -24,10 +24,15 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet, logger *slog.Logger) 
 		return err
 	}
 
-	return RunWithOptions(ctx, opts, logger)
+	return RunWithOptions(ctx, opts)
 }
 
-func RunWithOptions(ctx context.Context, opts *RunOptions, logger *slog.Logger) error {
+func RunWithOptions(ctx context.Context, opts *RunOptions) error {
+
+	if opts.Verbose {
+		slog.SetLogLoggerLevel(slog.LevelDebug)
+		slog.Debug("Verbose logging enabled")
+	}
 
 	run_opts = opts
 
@@ -36,7 +41,8 @@ func RunWithOptions(ctx context.Context, opts *RunOptions, logger *slog.Logger) 
 		"POST /schedule": scheduleHandlerFunc,
 	}
 
-	log_logger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)
+	slog_logger := slog.Default()
+	log_logger := slog.NewLogLogger(slog_logger.Handler(), slog.LevelInfo)
 
 	route_handler_opts := &handler.RouteHandlerOptions{
 		Handlers: handlers,
