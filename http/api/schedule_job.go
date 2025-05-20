@@ -2,12 +2,14 @@ package api
 
 import (
 	"encoding/json"
+	"io"
 	"log/slog"
 	"net/http"
 
 	"github.com/sfomuseum/go-http-auth"
 	"github.com/sfomuseum/go-offline"
 	off_http "github.com/sfomuseum/go-offline/http"
+	"github.com/tidwall/gjson"
 )
 
 // type ScheduleJobHandlerOptions defines a struct containing configuration options for the `ScheduleJobHandler` method.
@@ -19,11 +21,6 @@ type ScheduleJobHandlerOptions struct {
 	// A `sfomuseum/go-http-auth.Authenticator` instance to use to restrict access.
 	OfflineQueueMux map[string]offline.Queue
 	Authenticator   auth.Authenticator
-}
-
-type ScheduleJobInput struct {
-	Type         string      `json:"type"`
-	Instructions interface{} `json:"instructions"`
 }
 
 // ScheduleJobHandler() returns an `http.Handler` instance that...
@@ -46,18 +43,16 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 
 		logger = logger.With("account", acct.Name)
 
-		var input *ScheduleJobInput
-
-		dec := json.NewDecoder(req.Body)
-		err = dec.Decode(&input)
+		body, err := io.ReadAll(req.Body)
 
 		if err != nil {
-			logger.Error("Failed to decode request body", "error", err)
-			http.Error(rsp, "Failed to decode request body", http.StatusBadRequest)
+			logger.Error("Failed to read body", http.StatusInternalServerError)
+			http.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
-		job_type := input.Type
+		type_rsp := gjson.GetBytes(body, "type")
+		job_type := type_rsp.String()
 
 		if job_type == "" {
 			logger.Error("Missing job type")
@@ -79,15 +74,10 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 
 		logger = logger.With("job type", job_type)
 
-		enc_instructions, err := json.Marshal(input.Instructions)
+		instructions_rsp := gjson.GetBytes(body, "instructions")
+		str_instructions := string(instructions_rsp.Raw)
 
-		if err != nil {
-			logger.Error("Failed to encode instructions", "error", err)
-			http.Error(rsp, "Failed to encode instructions", http.StatusBadRequest)
-			return
-		}
-
-		job, err := offline.ScheduleJob(ctx, opts.OfflineDatabase, offline_q, acct.Name(), job_type, string(enc_instructions))
+		job, err := offline.ScheduleJob(ctx, opts.OfflineDatabase, offline_q, acct.Name(), job_type, str_instructions)
 
 		if err != nil {
 			logger.Error("Failed to schedule update for offline job", "error", err)
