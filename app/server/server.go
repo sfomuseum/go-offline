@@ -7,8 +7,8 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/aaronland/go-http-server"
-	"github.com/aaronland/go-http-server/handler"
+	"github.com/aaronland/go-http-server/v2"
+	"github.com/aaronland/go-http-server/v2/handler"
 )
 
 func Run(ctx context.Context) error {
@@ -41,12 +41,8 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 		"POST /schedule": scheduleHandlerFunc,
 	}
 
-	slog_logger := slog.Default()
-	log_logger := slog.NewLogLogger(slog_logger.Handler(), slog.LevelInfo)
-
 	route_handler_opts := &handler.RouteHandlerOptions{
 		Handlers: handlers,
-		Logger:   log_logger,
 	}
 
 	route_handler, err := handler.RouteHandlerWithOptions(route_handler_opts)
