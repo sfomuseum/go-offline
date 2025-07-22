@@ -30,8 +30,8 @@ github.com/aaronland/go-aws-auth v1.7.0 h1:iTX4JsdBB43zLa6G9M76RT8kwJrIkBERigeem
 github.com/aaronland/go-aws-auth v1.7.0/go.mod h1:vtYPj+S4vkRGx1+lbtkYpzykIKFCUtGf32Hi8KnJO3U=
 github.com/aaronland/go-http-sanitize v0.0.8 h1:RRcwJwZtIb0J6xFPgW8a2OkQhMFG/uXkFFOFkCzMeKY=
 github.com/aaronland/go-http-sanitize v0.0.8/go.mod h1:qUi4rzUPcpMntpUFnHK00yQI5vd/Q7x9MFYwX91/ygI=
-github.com/aaronland/go-http-server v1.5.0 h1:5yEan85iJrECOHDVmDn/noU7vbDEN50aQR7gXbZpSf8=
-github.com/aaronland/go-http-server v1.5.0/go.mod h1:BJqspPR3LgC3CReChGY9p783zzk5dDegDVNWwgHW2TM=
+github.com/aaronland/go-http-server/v2 v2.0.1 h1:NyC0Xyli+PTzai8YGcfUvK2SQarObjGfgj0A7OWQCaY=
+github.com/aaronland/go-http-server/v2 v2.0.1/go.mod h1:xIqgVmPUBUQv8yFMDaYJ8x+fYmxNGKzBmRsuppdR5D0=
 github.com/aaronland/go-roster v1.0.0 h1:FRDGrTqsYySKjWnAhbBGXyeGlI/o5/t9FZYCbUmyQtI=
 github.com/aaronland/go-roster v1.0.0/go.mod h1:KIsYZgrJlAsyb9LsXSCvlqvbcCBVjCSqcQiZx42i9ro=
 github.com/aaronland/gocloud-blob v0.4.2 h1:mIWSKmRkHyN21JQAL7E8B5p8L+LaTWuFOybur2Je4qU=
@@ -172,8 +172,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/rs/cors v1.11.1 h1:eU3gRzXLRK57F5rKMGMZURNdIG4EoAmX8k94r9wXWHA=
 github.com/rs/cors v1.11.1/go.mod h1:XyqrcTp5zjWr1wsJ8PIRZssZ8b/WMcMf71DJnit4EMU=
-github.com/sfomuseum/go-flags v0.10.0 h1:1OC1ACxpWMsl3XQ9OeNVMQj7Zi2CzufP3Rym3mPI8HU=
-github.com/sfomuseum/go-flags v0.10.0/go.mod h1:VXOnnX1/yxQpX2yiwHaBV6aCmhtszQOL5bL1/nNo3co=
+github.com/sfomuseum/go-flags v0.11.0 h1:HmMm5DgLxgz8iaNsvJ79dyRXjuAyX/fruqkBeHmopL0=
+github.com/sfomuseum/go-flags v0.11.0/go.mod h1:cUTByyudaM9d+iHwxsEpyYHemWVOGL/bqTRPIvydiC8=
 github.com/sfomuseum/go-http-auth v1.2.0 h1:/jFdqB/qmSoL2YRso/zMlbzJoXhARfVBuZG5iES7KKU=
 github.com/sfomuseum/go-http-auth v1.2.0/go.mod h1:5+SMeYQglCX5rrgnzi1hse3B9ris/v4P9CV4rzHtmDs=
 github.com/sfomuseum/runtimevar v1.3.0 h1:nd9FcDiFkWV0b0py1um+ZIaJe6KkzAXWONTWwLNWA4Q=
