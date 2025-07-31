@@ -46,7 +46,7 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 		body, err := io.ReadAll(req.Body)
 
 		if err != nil {
-			logger.Error("Failed to read body", http.StatusInternalServerError)
+			logger.Error("Failed to read body", "error", err)
 			http.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}
