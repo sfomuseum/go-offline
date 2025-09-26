@@ -3,9 +3,10 @@ package offline
 import (
 	"context"
 	"encoding/json"
-	"github.com/tidwall/gjson"
 	"strconv"
 	"testing"
+
+	"github.com/tidwall/gjson"
 )
 
 func TestNewJob(t *testing.T) {

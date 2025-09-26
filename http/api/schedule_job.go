@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/sfomuseum/go-http-auth"
+	"github.com/aaronland/go-http/v3/auth"
 	"github.com/sfomuseum/go-offline"
 	off_http "github.com/sfomuseum/go-offline/http"
 	"github.com/tidwall/gjson"
