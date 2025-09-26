@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/sfomuseum/go-http-auth"
+	"github.com/aaronland/go-http/v3/auth"
 	"github.com/sfomuseum/go-offline"
 	off_http "github.com/sfomuseum/go-offline/http"
 	"github.com/tidwall/gjson"
@@ -46,7 +46,7 @@ func ScheduleJobHandler(opts *ScheduleJobHandlerOptions) http.Handler {
 		body, err := io.ReadAll(req.Body)
 
 		if err != nil {
-			logger.Error("Failed to read body", http.StatusInternalServerError)
+			logger.Error("Failed to read body", "error", err)
 			http.Error(rsp, "Internal server error", http.StatusInternalServerError)
 			return
 		}

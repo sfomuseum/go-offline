@@ -3,8 +3,8 @@ package server
 import (
 	"sync"
 
+	"github.com/aaronland/go-http/v3/auth"
 	"github.com/rs/cors"
-	"github.com/sfomuseum/go-http-auth"
 	"github.com/sfomuseum/go-offline"
 )
 
