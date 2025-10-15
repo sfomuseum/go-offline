@@ -18,7 +18,7 @@ func Run(ctx context.Context) error {
 
 func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 
-	opts, err := DeriveRunOptionsFromFlagSet(fs)
+	opts, err := DeriveRunOptionsFromFlagSet(ctx, fs)
 
 	if err != nil {
 		return err

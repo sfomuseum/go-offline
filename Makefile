@@ -28,3 +28,8 @@ debug-server:
 		-offline-database-uri syncmap:// \
 		-offline-queue-uri '*=slog://' \
 		-authenticator-uri sharedsecret://s33kret
+
+debug-server-queue-config:
+	go run cmd/job-server/main.go \
+		-offline-queue-config-uri $(CONFIG_URI) \
+		-authenticator-uri sharedsecret://s33kret
