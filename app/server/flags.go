@@ -31,7 +31,7 @@ func DefaultFlagSet() *flag.FlagSet {
 	fs.StringVar(&offline_database_uri, "offline-database-uri", "", "")
 	fs.Var(&offline_queue_uris, "offline-queue-uri", "One or more {JOB_TYPE}={OFFLINE_QUEUE_URI} pairs. Pairs may also be specified as a comma-separated list.")
 
-	fs.StringVar(&offline_queue_config_uri, "offline-queue-config-uri", "", "...")
+	fs.StringVar(&offline_queue_config_uri, "offline-queue-config-uri", "", "A valid gocloud.dev/runtimevar URI that will return a JSON-encoded dictionary of {JOB_TYPE}={OFFLINE_QUEUE_URI} pairs. This is a convenience flag that will assign one or more -offline-queue-uri flags at runtime.")
 
 	fs.StringVar(&authenticator_uri, "authenticator-uri", "null://", "")
 
