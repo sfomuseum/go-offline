@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/aaronland/go-http/v3/auth"
+	"github.com/aaronland/go-http/v4/auth"
 	"github.com/sfomuseum/go-offline"
 )
 

@@ -3,6 +3,8 @@ package auth
 import (
 	"context"
 	"net/http"
+
+	"github.com/aaronland/go-http/v4/response"
 )
 
 func init() {
@@ -36,15 +38,15 @@ func (a *NoneAuthenticator) GetAccountForRequest(req *http.Request) (Account, er
 
 // SigninHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *NoneAuthenticator) SigninHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }
 
 // SignoutHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *NoneAuthenticator) SignoutHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }
 
 // SignoutHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *NoneAuthenticator) SignupHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }
