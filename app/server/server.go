@@ -7,8 +7,8 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/aaronland/go-http/v3/handlers"
-	"github.com/aaronland/go-http/v3/server"
+	"github.com/aaronland/go-http/v4/route"
+	"github.com/aaronland/go-http/v4/server"
 )
 
 func Run(ctx context.Context) error {
@@ -36,16 +36,16 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	run_opts = opts
 
-	route_handlers := map[string]handlers.RouteHandlerFunc{
+	route_handlers := map[string]route.RouteHandlerFunc{
 		"GET /status":    statusHandlerFunc,
 		"POST /schedule": scheduleHandlerFunc,
 	}
 
-	route_handler_opts := &handlers.RouteHandlerOptions{
+	route_handler_opts := &route.RouteHandlerOptions{
 		Handlers: route_handlers,
 	}
 
-	route_handler, err := handlers.RouteHandlerWithOptions(route_handler_opts)
+	route_handler, err := route.RouteHandlerWithOptions(route_handler_opts)
 
 	if err != nil {
 		return fmt.Errorf("Failed to configure route handler, %w", err)

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+
+	"github.com/aaronland/go-http/v4/response"
 )
 
 // SHARED_SECRET_HEADER is the name of the HTTP header to check for "shared secret" authentication.
@@ -91,15 +93,15 @@ func (a *SharedSecretAuthenticator) GetAccountForRequest(req *http.Request) (Acc
 
 // SigninHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *SharedSecretAuthenticator) SigninHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }
 
 // SignoutHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *SharedSecretAuthenticator) SignoutHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }
 
 // SignoutHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *SharedSecretAuthenticator) SignupHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }

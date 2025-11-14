@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/aaronland/go-http/v3/auth"
+	"github.com/aaronland/go-http/v4/auth"
 	"github.com/rs/cors"
 	"github.com/sfomuseum/go-offline"
 )

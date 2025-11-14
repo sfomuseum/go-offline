@@ -4,6 +4,8 @@ import (
 	"context"
 	"log"
 	"net/http"
+
+	"github.com/aaronland/go-http/v4/response"
 )
 
 func init() {
@@ -39,17 +41,17 @@ func (a *NullAuthenticator) GetAccountForRequest(req *http.Request) (Account, er
 
 // SigninHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *NullAuthenticator) SigninHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }
 
 // SignoutHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *NullAuthenticator) SignoutHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }
 
 // SignoutHandler returns an `http.Handler` instance that returns an HTTP "501 Not implemented" error.
 func (a *NullAuthenticator) SignupHandler() http.Handler {
-	return notImplementedHandler()
+	return response.NotImplementedHandler()
 }
 
 // SetLogger is a no-op and does nothing.
